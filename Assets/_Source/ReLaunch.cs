@@ -3,76 +3,128 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(BoxCollider))]
-public class ReLaunch : GenerateBonuses
+public class ReLaunch : MonoBehaviour
 {
+    [Header("Launch Settings")]
     [SerializeField] private Vector3 maxTensionPosition;
-    [SerializeField] private Vector3 _startPosition;
     [SerializeField] private float tensionDuration = 1f;
     [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private PlayerInput playerInput;
 
+    [Header("References")]
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private GenerateBonuses bonusGenerator;
+
+    private Vector3 _startPosition;
     private float _tensionStartTime;
-    private BoxCollider m_BoxCollider;
-    private InputAction _reload;
-   [SerializeField] private bool isTargetInTrigger = false; 
+    private BoxCollider _boxCollider;
+    private InputAction _reloadAction;
+    private bool _isTargetInTrigger = false;
+    private bool _isTensioning = false;
 
     private void Awake()
     {
-        m_BoxCollider = GetComponent<BoxCollider>();
-        m_BoxCollider.isTrigger = true;
-        _reload = playerInput.actions["Reload"];
+        _boxCollider = GetComponent<BoxCollider>();
+        _boxCollider.isTrigger = true;
+        _startPosition = transform.position;
+
+        if (playerInput != null)
+        {
+            _reloadAction = playerInput.actions["Reload"];
+        }
+        else
+        {
+            return;
+        }
     }
 
     private void OnEnable()
     {
-        _reload.performed += ReturnBall;
+        if (_reloadAction != null)
+        {
+            _reloadAction.performed += StartReturnBall;
+        }
     }
 
     private void OnDisable()
     {
-        _reload.performed -= ReturnBall; 
+        if (_reloadAction != null)
+        {
+            _reloadAction.performed -= StartReturnBall;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((targetLayer.value & (1 << other.gameObject.layer)) != 0)
+        if (IsInTargetLayer(other.gameObject))
         {
-            isTargetInTrigger = true;
+            _isTargetInTrigger = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
-        if ((targetLayer.value & (1 << other.gameObject.layer)) != 0)
+        if (IsInTargetLayer(other.gameObject))
         {
-            isTargetInTrigger = false;
+            _isTargetInTrigger = false;
         }
     }
 
-    private void ReturnBall(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (!isTargetInTrigger) return;
-        HideAll();
-        ShowNewBonuses();
-        float timeSinceStarted = Time.time - _tensionStartTime;
-        float progress = Mathf.Clamp01(timeSinceStarted / tensionDuration);
+        if (_isTensioning)
+        {
+            UpdateTension();
+        }
+    }
+
+    private void StartReturnBall(InputAction.CallbackContext context)
+    {
+        if (!_isTargetInTrigger || _isTensioning) return;
+        if (bonusGenerator != null)
+        {
+            bonusGenerator.HideAllBonuses();
+        }
+        _isTensioning = true;
+        _tensionStartTime = Time.time;
+    }
+
+    private void UpdateTension()
+    {
+        float elapsedTime = Time.time - _tensionStartTime;
+        float progress = Mathf.Clamp01(elapsedTime / tensionDuration);
+
         transform.position = Vector3.Lerp(_startPosition, maxTensionPosition, progress);
 
-        isTargetInTrigger = false;
+        if (progress >= 1f)
+        {
+            CompleteReturn();
+        }
     }
+
+    private void CompleteReturn()
+    {
+        _isTensioning = false;
+        _isTargetInTrigger = false;
+        if (bonusGenerator != null)
+        {
+            bonusGenerator.GenerateNewBonuses();
+        }
+        transform.position = _startPosition;
+    }
+
+    private bool IsInTargetLayer(GameObject obj)
+    {
+        return (targetLayer.value & (1 << obj.layer)) != 0;
+    }
+
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.black;
-        Gizmos.DrawSphere(maxTensionPosition, 0.1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(maxTensionPosition, 0.2f);
 
-        if (Application.isPlaying)
-        {
-            Gizmos.DrawLine(_startPosition, maxTensionPosition);
-        }
-        else
-        {
-            Gizmos.DrawLine(transform.position, maxTensionPosition);
-        }
+        Gizmos.color = Color.yellow;
+        Vector3 startPos = Application.isPlaying ? _startPosition : transform.position;
+        Gizmos.DrawLine(startPos, maxTensionPosition);
+        Gizmos.DrawSphere(startPos, 0.15f);
     }
 }
