@@ -1,0 +1,94 @@
+{
+    "name": "MainController",
+    "maps": [
+        {
+            "name": "MainMap",
+            "id": "39128c6f-76a6-4f6d-9271-87caa951a749",
+            "actions": [
+                {
+                    "name": "Launch",
+                    "type": "Button",
+                    "id": "113f192c-cacf-41ce-983c-9a2f657f596e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Flipper_L",
+                    "type": "Button",
+                    "id": "9d507520-7f09-488b-b291-490479752254",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Flipper_R",
+                    "type": "Button",
+                    "id": "42971da1-b9db-494d-b97d-ad1c41a1de54",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "405b01f3-af11-4b17-b183-9fa45aab791e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fdf57218-34ed-4c0f-b0e2-a435c8654bf7",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Launch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6145fc6-d981-4001-adb2-195e17ecd26b",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flipper_L",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03f697c1-4d74-4313-a6f2-efcd32f8c082",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flipper_R",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb146545-96b4-4629-8362-eb4056880e08",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
