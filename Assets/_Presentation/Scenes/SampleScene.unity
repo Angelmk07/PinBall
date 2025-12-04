@@ -152,35 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02cf7db70a0d6e148bec80fc37aa39f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 7
-  bonusMini: {fileID: 3880304502631088678, guid: 4f888b05754eba640a955efe7d17f38e, type: 3}
-  bonus: {fileID: 4637178717934991203, guid: d65834c35fd7b214e83367f3c92c81ad, type: 3}
-  points:
-  - {fileID: 1092367477}
-  - {fileID: 1293120348}
-  - {fileID: 284765773}
-  - {fileID: 1683202927}
-  - {fileID: 1743617478}
-  - {fileID: 2071251062}
-  - {fileID: 1600481143}
-  - {fileID: 637843259}
-  - {fileID: 1295661025}
-  - {fileID: 2008703468}
-  - {fileID: 201215168}
-  - {fileID: 1307886641}
-  - {fileID: 1328456344}
-  - {fileID: 760884295}
-  - {fileID: 1084284290}
-  - {fileID: 430145387}
-  - {fileID: 1571165759}
   maxTensionPosition: {x: 2.284, y: 0.77, z: -3.07}
-  _startPosition: {x: 2.355, y: -1.36, z: -4.978}
   tensionDuration: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 8
   playerInput: {fileID: 811765239}
-  isTargetInTrigger: 0
+  bonusGenerator: {fileID: 0}
 --- !u!65 &101431300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -352,6 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ab4af9c7ca2a049b74838f1b3f533f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointsChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &167784365
 Transform:
   m_ObjectHideFlags: 0
